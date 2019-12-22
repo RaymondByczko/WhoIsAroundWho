@@ -1,0 +1,17 @@
+{
+    "name": "raymond-byczko/who-is-around-who",
+    "description": "PHP library to work with json data from NYTimes.",
+    "type": "library",
+    "require": {
+        "apache/log4php": "^2.3"
+    },
+    "require-dev": {
+        "apache/log4php": "^2.3"
+    },
+    "authors": [
+        {
+            "name": "Raymond Byczko",
+            "email": "raymondbyczko@att.net"
+        }
+    ]
+}
