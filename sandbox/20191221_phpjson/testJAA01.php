@@ -2,10 +2,14 @@
 require_once('JSONArchiveApi.php');
 $pathName = '193204.json';
 $resultArchive = '';
+$bankFoundHere = NULL;
 try {
 	$testContents = JSONArchiveApi::readContentsJSON($pathName);
 	JSONArchiveApi::checkStructure();
 	$resultArchive .= "193204.json: read, structure good";
+
+	$bankFoundHere = JSONArchiveApi::find('dance', 'lead_paragraph');
+	var_dump($bankFoundHere);
 }
 catch (Exception $e)
 {
@@ -21,5 +25,6 @@ catch (Exception $e)
 <body>
 <p>Welcome to the Test of JSON Archive API</p>
 <p>.... resultArchive:<?php echo $resultArchive; ?></p>
+<?php var_dump($bankFoundHere); ?>
 </body>
 </html>
