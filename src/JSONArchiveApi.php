@@ -1,10 +1,15 @@
 <?php
+	require __DIR__.'/vendor/autoload.php';
+
+	Logger::configure(__DIR__.'/config/config.xml');
+
 	/**
 	  * JSONArchiveApi reads a large file retrieved from the NYTimes Archive Api,
 	  * and puts it into php array.  The contents of the file are json.
 	 */
 	class JSONArchiveApi
 	{
+		static private $m_log = NULL;
 		static public $m_docProperties = array(
 			'web_url',
 			'snippet',
@@ -33,6 +38,9 @@
 		 */
 		static public function readContentsJSON($pathName)
 		{
+			$log = Logger::getLogger();
+			$log->info('readContentsJSON: start');
+			$log->info('... pathName='.$pathName);
 			$fileContent = file_get_contents($pathName);
 			$fileContent = ($fileContent===false)?(function(){throw new Exception('file_get_contents failed');})():$fileContent;
 			self::$m_phpContent = json_decode($fileContent, true);
