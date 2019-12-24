@@ -1,7 +1,8 @@
 <?php
-	require __DIR__.'/vendor/autoload.php';
+	namespace WhoIsAroundWho;
+	require './vendor/autoload.php';
 
-	Logger::configure(__DIR__.'/config/config.xml');
+	\Logger::configure('./config/config.xml');
 
 	/**
 	  * JSONArchiveApi reads a large file retrieved from the NYTimes Archive Api,
@@ -38,7 +39,7 @@
 		 */
 		static public function readContentsJSON($pathName)
 		{
-			$log = Logger::getLogger();
+			$log = \Logger::getLogger("myAppender");
 			$log->info('readContentsJSON: start');
 			$log->info('... pathName='.$pathName);
 			$fileContent = file_get_contents($pathName);
@@ -97,14 +98,21 @@
 		  */
 		public function find($token, $key)
 		{
+			$log = \Logger::getLogger("myAppender");
+			$log->info('find: start');
+			$log->info('... token: .'.$token);
+			$log->info('... key: '.$key);
 			$docIndexes = array();
 			if (!in_array($key, self::$m_docProperties))
 			{
 				throw new Exception('key '.$key.' not a recognized property of doc');
 			}
-			$docs = array_keys(self::$m_phpContent['response']['docs']);
+			$docs = self::$m_phpContent['response']['docs'];
 			foreach ($docs as $docKey=>$docValue)
 			{
+				$log->debug('... docValue(ve):'.var_export($docValue, TRUE));
+				$log->debug('... docKey='.$docKey);
+				$log->debug('... docValue[key]='.$docValue[$key]);
 				$tokenCt = substr_count($docValue[$key], $token);
 				if ($tokenCt > 0)
 				{
