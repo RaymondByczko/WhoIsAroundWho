@@ -1,8 +1,8 @@
 <?php
 	namespace WhoIsAroundWho;
-	require './vendor/autoload.php';
+	require 'vendor/autoload.php';
 
-	\Logger::configure('./config/config.xml');
+	\Logger::configure('config/config.xml');
 
 	/**
 	  * JSONArchiveApi reads a large file retrieved from the NYTimes Archive Api,
