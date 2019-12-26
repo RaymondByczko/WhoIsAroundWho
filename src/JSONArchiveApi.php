@@ -121,5 +121,70 @@
 			}
 			return $docIndexes;
 		}
+
+		/**
+		  * getAvailabeJSONFiles: this determines what json data is available
+		  * at the storage directory given by storageDir.  It is assumed
+		  *
+		  * 	* files are named YYYYMM.json
+		  * 	* YYYY fully represents a year (e.g. 1932)
+		  * 	* MM represents a month (e.g. 04 represents April).
+		 */
+		static public function getAvailableJSONFiles($storageDir)
+		{
+			$posLastForward = strrpos($storageDir, "/");
+			$lenStorageDir = strlen($storageDir);
+			$endsWithForward = $posLastForward == ($lenStorageDir-1)?TRUE:FALSE;
+
+			$forwardSlashA = $endsWithForward?"":"/";
+			$availFiles = glob($storageDir.$forwardSlashA."[12][89][0-9][0-9][0-9][0-9].json");
+			$log = \Logger::getLogger("myAppender");
+			$log->info('JSONArchiveApi::getAvailableJSONData: start');
+			foreach ($availFiles as $someFile)
+			{
+				$log->info('... someFile='.$someFile);
+			}
+			return $availFiles;
+		}
+		
+		/**
+		  * getAvailableJSONYearsMonths returns years and months of the
+		  * data available.
+		 */
+		static public function getAvailableJSONYearsMonths($storageDir)
+		{
+			$log = \Logger::getLogger("myAppender");
+			$log->info('JSONArchiveApi::getAvailableJSONYearsMonths: start');
+			$retArray = array();
+			$jsonFiles = self::getAvailableJSONFiles($storageDir);
+			foreach ($jsonFiles as $jsonFile)
+			{
+				$log->info('... jsonFile='.$jsonFile);
+				$subJsonFile = explode("/", $jsonFile);;
+				$statusExplode = count($subJsonFile) == 2?"ok":(function() { throw new \Exception('two components expected');})();
+				$fileName = $subJsonFile[1];
+				$subFileName = explode(".", $fileName);
+				$log->info('... subFileName='.var_export($subFileName, TRUE));;
+				$statusExplode = count($subFileName) == 2?"ok":(function() { throw new \Exception('two components expected');})();
+				$yyyymm = $subFileName[0];
+				$pm = preg_match('/^[0-9][0-9][0-9][0-9][0-9][0-9]$/', $yyyymm);
+				$pm = $pm == TRUE?$pm:(function(){throw new \Exception('yyyymm format expected');})();
+
+				$log->info('... yyyymm='.$yyyymm);
+				$year = substr($yyyymm, 0, 4);
+				$month = substr($yyyymm, 4, 2);
+				$log->info('... year='.$year);
+				$log->info('... month='.$month);
+				if (!isset($retArray[$year]))
+				{
+					$retArray[$year] = array();
+				}
+				$retArray[$year][] = $month;
+			}
+			return $retArray;
+
+		}
+
+
 	}
 ?>
