@@ -3,7 +3,8 @@
     "description": "PHP library to work with json data from NYTimes.",
     "type": "library",
     "require": {
-        "apache/log4php": "^2.3"
+        "apache/log4php": "^2.3",
+        "tedivm/stash": "^0.15.2"
     },
     "require-dev": {
         "apache/log4php": "^2.3"
