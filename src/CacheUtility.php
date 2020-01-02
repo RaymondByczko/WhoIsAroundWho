@@ -14,7 +14,10 @@
 	{
 		public function get($findThis, ICacheWorkhorse $workhorse) 
 		{
+			$log = \Logger::getLogger("myAppender");
+			$log->info('CacheUtilty::get:start');
 			$gotThis = $workhorse->get($findThis);
+			$log->info('CacheUtilty::get:gotThis='.$gotThis);
 			return $gotThis;
 		}
 
