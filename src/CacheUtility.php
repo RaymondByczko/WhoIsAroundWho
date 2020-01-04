@@ -33,7 +33,7 @@
 		public function produceCacheWorkhorse()
 		{
 			$objWorkhorse = NULL;
-			$envWC = getenv('WHOSITE_CACHEMETHOD') == FALSE)
+			$envWC = getenv('WHOSITE_CACHEMETHOD');
 			if ($envWC == FALSE)
 			{
 				$objWorkhorse = new \WhoIsAroundWho\NullCacheWorkhorse();
