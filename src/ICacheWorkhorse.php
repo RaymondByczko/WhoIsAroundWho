@@ -11,5 +11,6 @@
 	 */
 	interface ICacheWorkhorse
 	{
+		public function get($findThis);
 	}
 ?>	
